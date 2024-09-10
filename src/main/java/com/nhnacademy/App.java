@@ -44,6 +44,11 @@ public class App
 
         //TODO#3 - Main Thread에서 2초 후 monitor를 이용하여 대기하고 있는 threadA를 깨움 니다.
         synchronized (monitor) {
+            try{
+            Thread.sleep(2000);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
             monitor.notify();
         }
 
