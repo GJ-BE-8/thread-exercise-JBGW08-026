@@ -15,17 +15,21 @@ package com.nhnacademy.thread;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Counter {
+public class Counter extends Thread {
     private final long countMaxSize;
     private long count;
+    private String name;
 
-    public Counter(long countMaxSize) {
+    public Counter(String name,long countMaxSize) {
         //TODO#1 countMaxSize < 0 작다면 IllegalArgumentException 예외가 발생 합니다.
-
+        if(countMaxSize <0){
+            throw new IllegalArgumentException("countMaxSize must be greater than zero");
+        }
         //TODO#2 this.countMaxSize 초기화 합니다.
-
+        this.countMaxSize = countMaxSize;
         //TODO#3 this.count 값을 0으로 초기화 합니다.
-
+        this.count = 0;
+        this.name = name;
     }
 
     public void run() {
@@ -36,14 +40,19 @@ public class Counter {
               Thread.sleep method를 사용하세요.
               https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html#sleep(java.time.Duration)
             */
+            try {
+                Thread.sleep(1000);
+                count++;
 
-            count++;
-
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
             /*TODO#5 count 출력
                 name:{Thread name}, count:{count 변수}
                 Thread name : Thread.currentThread().getName();
                 ex) name:my-thread, count:1
              */
+            System.out.println("name: " + name +", count: " + count);
 
         }while (count<countMaxSize);
     }
