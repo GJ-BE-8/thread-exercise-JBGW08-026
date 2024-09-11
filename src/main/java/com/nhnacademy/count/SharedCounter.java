@@ -38,17 +38,34 @@ public class SharedCounter {
             semaphore.release()를 호출하여
             허가를 반환 합니다.
          */
+        try {
+            semaphore.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
+        long result = count;
+        semaphore.release();
 
-        return count;
+        return result;
     }
 
     public long increaseAndGet(){
         /* TODO#1-3 count = count + 1 증가시키고 count를 반환 합니다.
            1-2 처럼 semaphore를 이용해서 동기화할 수 있도록 구현 합니다.
         */
+
+        try {
+            semaphore.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         count = count + 1;
-        return count;
+        long result = count;
+
+        semaphore.release();
+        return result;
     }
 
     public long decreaseAndGet(){
@@ -56,6 +73,9 @@ public class SharedCounter {
           1-2 처럼 semaphore를 이용해서 동기화할 수 있도록 구현 합니다.
         */
         count = count - 1;
-        return count;
+        long result = count;
+
+        semaphore.release();
+        return result;
     }
 }
